@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Update Designation</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<h1>Update Designation</h1>
+		<form th:action="@{/designations/update/{id}(id=${designation.designationId})}" method="post">
+			<div class="form-group">
+				<label for="designationName">Name:</label>
+				<input type="text" id="designationName" name="designationName" class="form-control"
+					th:value="${designation.designationName}">
+			</div>
+			<button type="submit" class="btn btn-primary">Update</button>
+			<a href="/designations" class="btn btn-secondary btn-back">Back</a>
+
+		</form>
+	</div>
+</body>
+
+</html>

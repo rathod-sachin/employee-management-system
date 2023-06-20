@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Update Employee</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+	<div class="container">
+		<h1>Update Employee</h1>
+		<form th:action="@{/employees/update/{id}(id=${employee.employeeId})}" method="post">
+			<div class="form-group">
+				<label for="employeeName">Name:</label>
+				<input type="text" id="employeeName" name="employeeName" class="form-control"
+					th:value="${employee.employeeName}">
+			</div>
+			<div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" id="email" name="email" class="form-control" th:value="${employee.email}">
+			</div>
+			<div class="form-group">
+				<label for="mobileNumber">Mobile Number:</label>
+				<input type="text" id="mobileNumber" name="mobileNumber" class="form-control"
+					th:value="${employee.mobileNumber}">
+			</div>
+			<div class="form-group">
+				<label for="designation">Designation:</label>
+				<select id="designation" name="designation" class="form-control">
+					<option th:each="designation : ${designationList}" th:value="${designation.designationId}"
+						th:text="${designation.designationName}"
+						th:selected="${designation.designationId == employee.designation.designationId}"></option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Update</button>
+			<a href="/employees" class="btn btn-secondary btn-back">Back</a>
+		</form>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>View Designations</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		h1 {
+			color: #007bff;
+			font-family: 'Arial', sans-serif;
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		thead {
+			background-color: #e9ecef;
+		}
+
+		.action-buttons {
+			display: flex;
+			align-items: center;
+		}
+
+		.action-buttons form {
+			margin-right: 5px;
+		}
+
+		.pagination {
+			justify-content: center;
+			margin-top: 20px;
+		}
+
+		.pagination .page-link {
+			color: #007bff;
+			background-color: transparent;
+			border: none;
+			transition: all 0.3s;
+			font-size: 14px;
+			padding: 0.375rem 0.75rem;
+			line-height: 1.5;
+			border-radius: 0.25rem;
+		}
+
+		.pagination .page-link:hover,
+		.pagination .page-link:focus {
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+
+		.pagination .page-item.active .page-link {
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+
+		.pagination .page-item.disabled .page-link {
+			color: #6c757d;
+			background-color: #f8f9fa;
+			border-color: #dee2e6;
+			pointer-events: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1>Designation List</h1>
+		<div style="margin-bottom: 10px;">
+			<a href="/designations/new" class="btn btn-success">Add Designation</a>
+		</div>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="designation : ${designationList}">
+					<td th:text="${designation.designationName}"></td>
+					<td>
+						<div class="action-buttons">
+							<form th:action="@{/designations/update/{id}(id=${designation.designationId})}"
+								method="get">
+								<button type="submit" class="btn btn-primary">Update</button>
+							</form>
+							<form th:action="@{/designations/delete/{id}(id=${designation.designationId})}"
+								method="post">
+								<button type="submit" class="btn btn-danger">Delete</button>
+							</form>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<nav>
+			<ul class="pagination">
+				<li class="page-item" th:class="${currentPage == 1} ? disabled">
+					<a class="page-link" th:href="@{/designations/page/1}">First</a>
+				</li>
+				<li class="page-item" th:class="${currentPage > 1} ? ''">
+					<a class="page-link" th:if="${currentPage > 1}"
+						th:href="@{/designations/page/__${currentPage-1}__}">&laquo;</a>
+					<span class="page-link" th:if="${currentPage == 1}">&laquo;</span>
+				</li>
+				<li class="page-item" th:each="page : ${#numbers.sequence(1, totalPages)}"
+					th:class="${currentPage == page} ? 'page-item active' : 'page-item'">
+					<a class="page-link" th:if="${currentPage != page}" th:href="@{/designations/page/__${page}__}"
+						th:text="${page}"></a>
+					<span class="page-link" th:if="${currentPage == page}" th:text="${page}"></span>
+				</li>
+				<li class="page-item" th:class="${currentPage < totalPages} ? ''">
+					<a class="page-link" th:if="${currentPage < totalPages}"
+						th:href="@{/designations/page/__${currentPage+1}__}">&raquo;</a>
+					<span class="page-link" th:if="${currentPage == totalPages}">&raquo;</span>
+				</li>
+				<li class="page-item" th:class="${currentPage == totalPages} ? disabled">
+					<a class="page-link" th:href="@{/designations/page/__${totalPages}__}">Last</a>
+				</li>
+			</ul>
+		</nav>
+
+
+
+	</div>
+</body>
+
+</html>
